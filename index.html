@@ -1,0 +1,212 @@
+```jsx
+import { useState, useEffect } from 'react';
+
+export default function App() {
+  const [activeTab, setActiveTab] = useState('vida');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Simular scroll para mostrar el botón de volver arriba
+  const [showScrollTop, setShowScrollTop] = useState(false);
+  useEffect(() => {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        setShowScrollTop(true);
+      } else {
+        setShowScrollTop(false);
+      }
+    });
+  }, []);
+
+  // Datos del filósofo
+  const marxData = {
+    vida: {
+      titulo: "Vida",
+      contenido: (
+        <>
+          <p>Karl Marx nació el 5 de mayo de 1818 en Tréveris, Alemania. Fue un filósofo, economista, historiador y revolucionario alemán cuyo pensamiento influyó profundamente en el desarrollo del socialismo y el comunismo.</p>
+          <p>Estudió derecho y filosofía en las universidades de Bonn y Berlín, donde se interesó por la filosofía de Hegel. En 1842 comenzó a trabajar como periodista para el periódico Rheinische Zeitung, donde desarrolló su crítica al sistema político prusiano.</p>
+          <p>En 1843 se mudó a París, donde conoció a Friedrich Engels, con quien estableció una amistad intelectual que duraría toda la vida. Juntos escribieron obras fundamentales del marxismo, entre ellas <em>La ideología alemana</em> y <em>El manifiesto comunista</em>.</p>
+          <p>Durante gran parte de su vida sufrió persecución política y pobreza. Murió el 14 de marzo de 1883 en Londres, Reino Unido, sin ver el impacto global que sus ideas tendrían en el siglo XX.</p>
+        </>
+      ),
+    },
+    obra: {
+      titulo: "Obra",
+      contenido: (
+        <>
+          <h3 className="text-xl font-semibold mb-2">Obras Principales</h3>
+          <ul className="list-disc pl-6 mb-4">
+            <li><strong>El Manifiesto Comunista (1848)</strong> – Con Friedrich Engels</li>
+            <li><strong>El Capital (vol. I, 1867; vol. II y III publicados póstumamente por Engels)</strong></li>
+            <li><strong>Crítica de la Filosofía del Derecho de Hegel (1843)</strong></li>
+            <li><strong>Manuscritos Económico-Filosóficos (1844)</strong></li>
+            <li><strong>La Ideología Alemana (1845–1846)</strong></li>
+            <li><strong>Dieciocho Brumario de Luis Bonaparte (1852)</strong></li>
+          </ul>
+
+          <h3 className="text-xl font-semibold mb-2">Citas Ilustrativas</h3>
+          <blockquote className="italic border-l-4 pl-4 mb-4 bg-gray-100 p-4 rounded">
+            “Los filósofos no han hecho más que interpretar de diversos modos el mundo, pero de lo que se trata es de transformarlo.” <br />
+            <span className="text-sm text-gray-600">– Tesis sobre Feuerbach, 1845</span>
+          </blockquote>
+          <blockquote className="italic border-l-4 pl-4 mb-4 bg-gray-100 p-4 rounded">
+            “La religión es el suspiro de la criatura oprimida, el corazón de un mundo sin corazón, y el alma de una situación desalmada. Es el opio del pueblo.” <br />
+            <span className="text-sm text-gray-600">– Crítica de la Filosofía del Derecho de Hegel, 1843</span>
+          </blockquote>
+          <blockquote className="italic border-l-4 pl-4 mb-4 bg-gray-100 p-4 rounded">
+            “Lo que distingue a una formación económica de otra, no es lo que produce, sino cómo lo produce y mediante qué relaciones sociales de producción.” <br />
+            <span className="text-sm text-gray-600">– El Capital, Libro I, 1867</span>
+          </blockquote>
+        </>
+      ),
+      enlaces: [
+        { nombre: "El Manifiesto Comunista", enlace: "https://www.gutenberg.org/ebooks/64920" },
+        { nombre: "El Capital, Vol. I", enlace: "https://www.gutenberg.org/ebooks/2600" },
+        { nombre: "Manuscritos Económico-Filosóficos", enlace: "https://archive.org/details/ManuscritosEconmicoFilosficosDeKarlMarx" },
+        { nombre: "Crítica de la Filosofía del Derecho de Hegel", enlace: "https://www.amazon.es/Cr%C3%ADtica-filosof%C3%ADa-derecho-Hegel-espa%C3%B1ol/dp/842067850X" },
+        { nombre: "La Ideología Alemana", enlace: "https://www.gutenberg.org/ebooks/2600" },
+        { nombre: "Dieciocho Brumario de Luis Bonaparte", enlace: "https://www.gutenberg.org/ebooks/64920" },
+      ],
+    },
+    pensamiento: {
+      titulo: "Pensamiento",
+      contenido: (
+        <>
+          <h3 className="text-xl font-semibold mb-2">Contexto Histórico y Filosófico</h3>
+          <p>Karl Marx vivió durante un periodo de profundos cambios sociales, económicos y políticos en Europa. La Revolución Industrial transformaba radicalmente la producción y las relaciones laborales, mientras que las revoluciones liberales de 1848 sacudían varios países europeos.</p>
+
+          <h3 className="text-xl font-semibold mt-4 mb-2">Principales Ideas</h3>
+          <ul className="list-disc pl-6 mb-4">
+            <li><strong>Materialismo histórico:</strong> La estructura económica de la sociedad determina su superestructura ideológica y jurídica.</li>
+            <li><strong>Lucha de clases:</strong> La historia humana es la historia de la lucha entre clases dominantes y dominadas.</li>
+            <li><strong>Plusvalía:</strong> Los trabajadores son explotados ya que producen más valor del que reciben en forma de salario.</li>
+            <li><strong>Alienación:</strong> En el capitalismo, los trabajadores están alienados de su trabajo, del producto de su trabajo, de sus compañeros y de su propia humanidad.</li>
+          </ul>
+
+          <h3 className="text-xl font-semibold mt-4 mb-2">Influencias Recibidas</h3>
+          <ul className="list-disc pl-6 mb-4">
+            <li>Hegel – Dialéctica y conciencia histórica</li>
+            <li>Feuerbach – Materialismo y crítica a la religión</li>
+            <li>Economistas clásicos (Smith, Ricardo) – Teoría del valor</li>
+            <li>Utopistas socialistas (Fourier, Owen, Saint-Simon) – Crítica a la desigualdad y visión de una sociedad más justa</li>
+          </ul>
+
+          <h3 className="text-xl font-semibold mt-4 mb-2">Influencias Ejercidas</h3>
+          <ul className="list-disc pl-6">
+            <li>Lenin y el marxismo-leninismo</li>
+            <li>Rosa Luxemburgo y la izquierda comunista</li>
+            <li>Gramsci y el análisis cultural</li>
+            <li>Frankfurt School y la teoría crítica</li>
+            <li>Movimientos de liberación en América Latina, África y Asia</li>
+          </ul>
+        </>
+      ),
+    },
+    fuentes: {
+      titulo: "Fuentes",
+      contenido: (
+        <>
+          <h3 className="text-xl font-semibold mb-2">Academia.edu</h3>
+          <ul className="list-disc pl-6 mb-4">
+            <li><a href="https://www.academia.edu/36211414/Karl_Marx_y_el_materialismo_histórico" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Karl Marx y el materialismo histórico</a></li>
+            <li><a href="https://www.academia.edu/29404645/El_pensamiento_filosófico_de_Karl_Marx" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">El pensamiento filosófico de Karl Marx</a></li>
+            <li><a href="https://www.academia.edu/42866195/La_crisis_del_capitalismo_según_Karl_Marx" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">La crisis del capitalismo según Karl Marx</a></li>
+          </ul>
+
+          <h3 className="text-xl font-semibold mb-2">Websites y Artículos</h3>
+          <ul className="list-disc pl-6 mb-4">
+            <li><a href="https://es.wikipedia.org/wiki/Karl_Marx" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Wikipedia: Karl Marx</a></li>
+            <li><a href="https://plato.stanford.edu/entries/marx/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Stanford Encyclopedia of Philosophy: Karl Marx</a></li>
+            <li><a href="https://www.iep.utm.edu/marx/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Internet Encyclopedia of Philosophy: Karl Marx</a></li>
+            <li><a href="https://www.marxists.org/espanol/index.htm" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Marxists.org – Obras completas de Marx y Engels en español</a></li>
+          </ul>
+        </>
+      ),
+    },
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50 text-gray-900">
+      {/* Header */}
+      <header className="bg-gradient-to-r from-red-600 to-pink-600 text-white shadow-lg">
+        <div className="container mx-auto px-4 py-6 flex justify-between items-center">
+          <h1 className="text-3xl font-bold">Karl Marx</h1>
+          <button 
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="md:hidden focus:outline-none"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isMobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
+            </svg>
+          </button>
+          <nav className="hidden md:block">
+            <ul className="flex space-x-6">
+              <li><button onClick={() => setActiveTab('vida')} className={`hover:underline ${activeTab === 'vida' ? 'font-bold' : ''}`}>Vida</button></li>
+              <li><button onClick={() => setActiveTab('obra')} className={`hover:underline ${activeTab === 'obra' ? 'font-bold' : ''}`}>Obra</button></li>
+              <li><button onClick={() => setActiveTab('pensamiento')} className={`hover:underline ${activeTab === 'pensamiento' ? 'font-bold' : ''}`}>Pensamiento</button></li>
+              <li><button onClick={() => setActiveTab('fuentes')} className={`hover:underline ${activeTab === 'fuentes' ? 'font-bold' : ''}`}>Fuentes</button></li>
+            </ul>
+          </nav>
+        </div>
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden bg-red-700 px-4 py-2">
+            <ul className="flex flex-col space-y-2">
+              <li><button onClick={() => { setActiveTab('vida'); setIsMobileMenuOpen(false); }} className={`block w-full text-left py-2 ${activeTab === 'vida' ? 'font-bold' : ''}`}>Vida</button></li>
+              <li><button onClick={() => { setActiveTab('obra'); setIsMobileMenuOpen(false); }} className={`block w-full text-left py-2 ${activeTab === 'obra' ? 'font-bold' : ''}`}>Obra</button></li>
+              <li><button onClick={() => { setActiveTab('pensamiento'); setIsMobileMenuOpen(false); }} className={`block w-full text-left py-2 ${activeTab === 'pensamiento' ? 'font-bold' : ''}`}>Pensamiento</button></li>
+              <li><button onClick={() => { setActiveTab('fuentes'); setIsMobileMenuOpen(false); }} className={`block w-full text-left py-2 ${activeTab === 'fuentes' ? 'font-bold' : ''}`}>Fuentes</button></li>
+            </ul>
+          </div>
+        )}
+      </header>
+
+      {/* Main Content */}
+      <main className="container mx-auto px-4 py-8">
+        <section className="bg-white rounded-lg shadow-md p-6 mb-8 transition-opacity duration-300">
+          <h2 className="text-2xl font-bold mb-4">{marxData[activeTab].titulo}</h2>
+          <div className="prose max-w-none">
+            {marxData[activeTab].contenido}
+          </div>
+
+          {/* Enlaces de obras */}
+          {activeTab === 'obra' && marxData.obra.enlaces && (
+            <div className="mt-6">
+              <h3 className="text-xl font-semibold mb-2">Obras Disponibles</h3>
+              <ul className="space-y-2">
+                {marxData.obra.enlaces.map((item, index) => (
+                  <li key={index}>
+                    <a href={item.enlace} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                      {item.nombre}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </section>
+      </main>
+
+      {/* Footer */}
+      <footer className="bg-gray-800 text-white py-6">
+        <div className="container mx-auto px-4 text-center">
+          <p>&copy; 2025 Estudio sobre Karl Marx. Todos los derechos reservados.</p>
+          <p className="mt-2 text-sm">Sitio web creado como recurso educativo.</p>
+        </div>
+      </footer>
+
+      {/* Botón de Volver Arriba */}
+      {showScrollTop && (
+        <button 
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className="fixed bottom-6 right-6 bg-red-600 text-white p-3 rounded-full shadow-lg hover:bg-red-700 transition-colors"
+          aria-label="Volver arriba"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+          </svg>
+        </button>
+      )}
+    </div>
+  );
+}
