@@ -64,33 +64,29 @@ const App: React.FC = () => {
   const NavLink: React.FC<{ id: SectionId; label: string }> = ({ id, label }) => (
     <button
       onClick={() => scrollToSection(id)}
-      className={`text-left px-4 py-2 w-full transition-colors duration-300 font-sans font-medium
-        ${activeSection === id 
-          ? 'bg-marx-red text-white border-l-4 border-marx-gold' 
-          : 'text-gray-700 hover:bg-gray-100 hover:text-marx-red'
-        }`}
+      className={`nav-link-mobile ${activeSection === id ? 'active' : ''}`}
     >
       {label}
     </button>
   );
 
   return (
-    <div className="min-h-screen bg-marx-paper text-marx-dark font-sans selection:bg-marx-red selection:text-white">
-      {/* Navigation Bar (Mobile & Desktop Sticky) */}
-      <header className="fixed top-0 left-0 w-full z-40 bg-white shadow-md border-b-4 border-marx-red">
-        <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-          <div className="flex items-center space-x-2 cursor-pointer" onClick={() => scrollToSection(SectionId.HOME)}>
-            <div className="w-8 h-8 bg-marx-red rounded-full flex items-center justify-center text-marx-gold font-bold font-serif">M</div>
-            <h1 className="text-xl font-display font-bold text-marx-dark tracking-wider">KARL MARX</h1>
+    <div className="app-root">
+      {/* Navigation Bar */}
+      <header className="main-header">
+        <div className="container header-content">
+          <div className="logo-area" onClick={() => scrollToSection(SectionId.HOME)}>
+            <div className="logo-icon">M</div>
+            <h1 className="logo-text">KARL MARX</h1>
           </div>
           
           {/* Mobile Menu Button */}
-          <button className="md:hidden text-marx-dark focus:outline-none" onClick={toggleMenu}>
-            <MenuIcon className="w-6 h-6" />
+          <button className="mobile-menu-btn" onClick={toggleMenu}>
+            <MenuIcon className="icon-md" />
           </button>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex space-x-6">
+          <nav className="desktop-nav">
             {Object.entries({
               [SectionId.BIOGRAPHY]: 'Biografía',
               [SectionId.THOUGHT]: 'Pensamiento',
@@ -101,7 +97,7 @@ const App: React.FC = () => {
               <button
                 key={id}
                 onClick={() => scrollToSection(id as SectionId)}
-                className={`text-sm font-bold uppercase tracking-widest transition-colors hover:text-marx-red ${activeSection === id ? 'text-marx-red border-b-2 border-marx-red' : 'text-gray-500'}`}
+                className={activeSection === id ? 'active' : ''}
               >
                 {label}
               </button>
@@ -111,7 +107,7 @@ const App: React.FC = () => {
 
         {/* Mobile Menu Dropdown */}
         {isMenuOpen && (
-          <div className="md:hidden bg-white border-t border-gray-200 shadow-lg absolute w-full">
+          <div className="mobile-dropdown">
              {Object.entries({
               [SectionId.HOME]: 'Inicio',
               [SectionId.BIOGRAPHY]: 'Biografía',
@@ -129,39 +125,39 @@ const App: React.FC = () => {
 
       {/* GENERIC DETAILED SUMMARY MODAL */}
       {activeModalData && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fade-in">
-          <div className="bg-marx-paper w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded shadow-2xl relative border-t-8 border-marx-red">
+        <div className="modal-backdrop">
+          <div className="modal-content">
              <button 
                onClick={closeModal}
-               className="absolute top-4 right-4 p-2 bg-gray-200 hover:bg-marx-red hover:text-white rounded-full transition-colors z-10"
+               className="modal-close-btn"
              >
-               <XIcon className="w-6 h-6" />
+               <XIcon className="icon-md" />
              </button>
              
-             <div className="p-8 md:p-12">
-               <div className="text-center mb-8">
-                 <span className="text-marx-gold font-bold tracking-widest uppercase text-xs mb-2 block">Explicación Detallada</span>
-                 <h2 className="text-3xl md:text-4xl font-display font-bold text-marx-dark mb-4 leading-tight">{activeModalData.title}</h2>
-                 <div className="w-20 h-1 bg-marx-red mx-auto"></div>
+             <div className="modal-body">
+               <div className="modal-header">
+                 <span className="modal-tag">Explicación Detallada</span>
+                 <h2 className="modal-title">{activeModalData.title}</h2>
+                 <div className="modal-divider"></div>
                </div>
                
-               <div className="prose prose-lg prose-stone mx-auto text-gray-700 font-serif leading-relaxed">
-                  <p className="font-bold italic text-xl mb-8 text-center text-gray-800">{activeModalData.intro}</p>
+               <div>
+                  <p className="modal-intro">{activeModalData.intro}</p>
                   
-                  <div className="space-y-8">
+                  <div>
                     {activeModalData.sections.map((section, idx) => (
-                      <div key={idx} className="bg-white p-6 rounded border-l-4 border-marx-gold shadow-sm">
-                         <h3 className="text-xl font-bold text-marx-red mb-2 font-sans uppercase">{section.heading}</h3>
-                         <p>{section.text}</p>
+                      <div key={idx} className="modal-section">
+                         <h3 className="modal-section-title">{section.heading}</h3>
+                         <p className="modal-text">{section.text}</p>
                       </div>
                     ))}
                   </div>
                </div>
 
-               <div className="mt-8 text-center">
+               <div className="modal-footer">
                  <button 
                    onClick={closeModal}
-                   className="px-6 py-2 bg-marx-dark text-white font-bold hover:bg-gray-800 transition-colors rounded"
+                   className="btn-modal-close"
                  >
                    Cerrar
                  </button>
@@ -171,36 +167,36 @@ const App: React.FC = () => {
         </div>
       )}
 
-      <main className="pt-16">
+      <main>
         
         {/* HERO SECTION */}
-        <section id={SectionId.HOME} className="min-h-screen flex flex-col md:flex-row items-center justify-center bg-gradient-to-br from-gray-900 to-marx-red text-white relative overflow-hidden">
-           <div className="absolute inset-0 opacity-20 bg-[url('https://picsum.photos/seed/paper/1920/1080')] mix-blend-overlay"></div>
-           <div className="container mx-auto px-6 z-10 flex flex-col md:flex-row items-center">
-             <div className="md:w-1/2 mb-10 md:mb-0 text-center md:text-left animate-fade-in-up">
-                <span className="inline-block py-1 px-3 border border-marx-gold text-marx-gold text-xs tracking-[0.2em] uppercase mb-4">Filósofo • Economista • Revolucionario</span>
-                <h2 className="text-5xl md:text-7xl font-display font-bold mb-6 leading-tight">
-                  Trabajadores del mundo, <span className="text-marx-gold italic">¡uníos!</span>
+        <section id={SectionId.HOME} className="hero-section">
+           <div className="hero-bg-overlay"></div>
+           <div className="container hero-content">
+             <div className="hero-text">
+                <span className="hero-tag">Filósofo • Economista • Revolucionario</span>
+                <h2 className="hero-title">
+                  Trabajadores del mundo, <span className="highlight-gold">¡uníos!</span>
                 </h2>
-                <p className="text-lg md:text-xl text-gray-300 mb-8 max-w-lg font-serif leading-relaxed">
+                <p className="hero-description">
                   Explora la vida y el legado intelectual de uno de los pensadores más influyentes de la historia moderna.
                 </p>
                 <button 
                   onClick={() => scrollToSection(SectionId.BIOGRAPHY)}
-                  className="bg-marx-gold text-marx-dark font-bold py-3 px-8 rounded-sm hover:bg-white transition-all duration-300 shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)]"
+                  className="btn-hero"
                 >
                   Comenzar Lectura
                 </button>
              </div>
-             <div className="md:w-1/2 flex justify-center">
-                <div className="relative w-80 h-96 md:w-[500px] md:h-[600px] border-8 border-white/10 shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-700">
+             <div className="hero-image-container">
+                <div className="hero-card">
                    <img 
                     src="https://picsum.photos/seed/marxstatue/800/1000?grayscale" 
                     alt="Monumento abstracto representativo" 
-                    className="w-full h-full object-cover filter contrast-125 sepia-[.3]"
+                    className="hero-img"
                    />
-                   <div className="absolute bottom-0 left-0 bg-marx-dark/80 text-white p-4 backdrop-blur-sm w-full">
-                     <p className="font-display font-bold text-center">1818 — 1883</p>
+                   <div className="hero-card-footer">
+                     <p>1818 — 1883</p>
                    </div>
                 </div>
              </div>
@@ -208,53 +204,53 @@ const App: React.FC = () => {
         </section>
 
         {/* QUOTE SEPARATOR */}
-        <div className="bg-marx-dark py-12 text-center px-4">
-          <blockquote className="font-serif text-xl md:text-2xl text-marx-paper max-w-3xl mx-auto italic leading-relaxed">
+        <div className="quote-separator">
+          <blockquote className="main-quote">
             "{QUOTES[0].text}"
-            <footer className="text-marx-gold text-sm mt-4 not-italic font-sans uppercase tracking-widest">— {QUOTES[0].source}</footer>
+            <footer className="quote-author">— {QUOTES[0].source}</footer>
           </blockquote>
         </div>
 
         {/* BIOGRAPHY SECTION */}
-        <section id={SectionId.BIOGRAPHY} className="py-20 container mx-auto px-6 scroll-margin-top">
-          <div className="flex flex-col md:flex-row gap-12 items-start">
-            <div className="md:w-1/3 sticky top-24">
-               <h3 className="text-4xl font-display font-bold text-marx-red mb-6 border-l-8 border-marx-dark pl-4">Biografía</h3>
-               <p className="text-gray-600 mb-6 font-serif italic">Del idealismo a la praxis revolucionaria.</p>
-               <img src="https://picsum.photos/seed/trier/400/300?grayscale" alt="Ciudad natal" className="w-full rounded shadow-lg mb-4 opacity-80 hover:opacity-100 transition-opacity" />
-               <span className="text-xs text-gray-500 uppercase tracking-wide block text-right">Tréveris, Prusia</span>
+        <section id={SectionId.BIOGRAPHY} className="container bio-section scroll-margin-top">
+          <div className="bio-grid">
+            <div className="bio-sidebar">
+               <h3 className="bio-title">Biografía</h3>
+               <p className="bio-subtitle">Del idealismo a la praxis revolucionaria.</p>
+               <img src="https://picsum.photos/seed/trier/400/300?grayscale" alt="Ciudad natal" className="bio-img" />
+               <span className="bio-caption">Tréveris, Prusia</span>
             </div>
-            <div className="md:w-2/3 prose prose-lg prose-red text-gray-700">
-              <p className="lead text-xl mb-6 font-serif">{BIOGRAPHY_SUMMARY}</p>
-              <div className="border-l-2 border-marx-gold pl-6 space-y-8 mt-8">
-                <div className="relative">
-                  <span className="absolute -left-[33px] top-0 w-4 h-4 rounded-full bg-marx-red border-2 border-white shadow"></span>
-                  <h4 className="text-lg font-bold text-marx-dark">1818</h4>
+            <div className="bio-content">
+              <p className="bio-lead">{BIOGRAPHY_SUMMARY}</p>
+              <div className="timeline">
+                <div className="timeline-item">
+                  <span className="timeline-dot red"></span>
+                  <h4 className="timeline-year">1818</h4>
                   <p>Nace en Tréveris en el seno de una familia judía convertida al protestantismo.</p>
                 </div>
-                <div className="relative">
-                  <span className="absolute -left-[33px] top-0 w-4 h-4 rounded-full bg-marx-dark border-2 border-white shadow"></span>
-                  <h4 className="text-lg font-bold text-marx-dark">1841</h4>
+                <div className="timeline-item">
+                  <span className="timeline-dot"></span>
+                  <h4 className="timeline-year">1841</h4>
                   <p>Se doctora en Filosofía en la Universidad de Jena. Se vincula a los Jóvenes Hegelianos.</p>
                 </div>
-                <div className="relative">
-                   <span className="absolute -left-[33px] top-0 w-4 h-4 rounded-full bg-marx-dark border-2 border-white shadow"></span>
-                   <h4 className="text-lg font-bold text-marx-dark">1844</h4>
+                <div className="timeline-item">
+                   <span className="timeline-dot"></span>
+                   <h4 className="timeline-year">1844</h4>
                    <p>Conoce a <strong>Friedrich Engels</strong> en París, iniciando una colaboración intelectual de por vida.</p>
                 </div>
-                <div className="relative">
-                   <span className="absolute -left-[33px] top-0 w-4 h-4 rounded-full bg-marx-red border-2 border-white shadow"></span>
-                   <h4 className="text-lg font-bold text-marx-dark">1848</h4>
+                <div className="timeline-item">
+                   <span className="timeline-dot red"></span>
+                   <h4 className="timeline-year">1848</h4>
                    <p>Publicación del <em>Manifiesto Comunista</em> en vísperas de las revoluciones europeas.</p>
                 </div>
-                <div className="relative">
-                   <span className="absolute -left-[33px] top-0 w-4 h-4 rounded-full bg-marx-dark border-2 border-white shadow"></span>
-                   <h4 className="text-lg font-bold text-marx-dark">1867</h4>
+                <div className="timeline-item">
+                   <span className="timeline-dot"></span>
+                   <h4 className="timeline-year">1867</h4>
                    <p>Publicación del primer volumen de <em>El Capital</em>.</p>
                 </div>
-                <div className="relative">
-                   <span className="absolute -left-[33px] top-0 w-4 h-4 rounded-full bg-marx-dark border-2 border-white shadow"></span>
-                   <h4 className="text-lg font-bold text-marx-dark">1883</h4>
+                <div className="timeline-item">
+                   <span className="timeline-dot"></span>
+                   <h4 className="timeline-year">1883</h4>
                    <p>Fallece en Londres. Es enterrado en el cementerio de Highgate.</p>
                 </div>
               </div>
@@ -263,22 +259,22 @@ const App: React.FC = () => {
         </section>
 
         {/* THOUGHT SECTION */}
-        <section id={SectionId.THOUGHT} className="py-20 bg-white scroll-margin-top">
-          <div className="container mx-auto px-6">
-            <div className="text-center mb-16">
-              <h3 className="text-4xl font-display font-bold text-marx-dark mb-4">Pensamiento Fundamental</h3>
-              <div className="w-24 h-1 bg-marx-red mx-auto"></div>
-              <p className="mt-4 text-gray-600 max-w-2xl mx-auto">Conceptos clave para entender la crítica marxista al sistema capitalista y su visión de la historia.</p>
+        <section id={SectionId.THOUGHT} className="thought-section scroll-margin-top">
+          <div className="container">
+            <div className="thought-header">
+              <h3 className="section-title">Pensamiento Fundamental</h3>
+              <div className="divider-red"></div>
+              <p style={{color: '#4b5563', maxWidth: '42rem', margin: '1rem auto'}}>Conceptos clave para entender la crítica marxista al sistema capitalista y su visión de la historia.</p>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="concepts-grid">
               {KEY_CONCEPTS.map((concept, idx) => (
-                <div key={idx} className="bg-marx-paper p-8 rounded-sm border-t-4 border-marx-dark hover:border-marx-red transition-colors duration-300 shadow-sm flex flex-col">
-                  <h4 className="text-2xl font-display font-bold text-marx-red mb-4">{concept.title}</h4>
-                  <p className="text-gray-700 leading-relaxed font-serif mb-6 flex-grow">{concept.shortDescription}</p>
+                <div key={idx} className="concept-card">
+                  <h4 className="concept-title">{concept.title}</h4>
+                  <p className="concept-desc">{concept.shortDescription}</p>
                   <button 
                     onClick={() => setActiveModalData(concept.details)}
-                    className="self-start text-xs font-bold uppercase tracking-widest border-b-2 border-marx-gold text-marx-dark hover:text-marx-red hover:border-marx-red transition-all pb-1"
+                    className="btn-link"
                   >
                     Leer explicación detallada →
                   </button>
@@ -286,12 +282,12 @@ const App: React.FC = () => {
               ))}
             </div>
 
-            <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="quotes-grid">
               {QUOTES.slice(1).map((quote, i) => (
-                <div key={i} className="relative p-6 bg-marx-dark text-gray-300 rounded-lg">
-                  <QuoteIcon className="w-8 h-8 text-marx-gold opacity-30 absolute top-4 left-4" />
-                  <p className="font-serif italic text-lg relative z-10 pt-4 pl-4">"{quote.text}"</p>
-                  <p className="text-right text-marx-gold text-sm mt-4 uppercase tracking-wider">— {quote.source}</p>
+                <div key={i} className="quote-card">
+                  <QuoteIcon className="quote-icon-bg" />
+                  <p className="quote-text-card">"{quote.text}"</p>
+                  <p className="quote-source-card">— {quote.source}</p>
                 </div>
               ))}
             </div>
@@ -299,34 +295,34 @@ const App: React.FC = () => {
         </section>
 
         {/* INFLUENCES SECTION */}
-        <section id={SectionId.INFLUENCES} className="py-20 bg-gray-100 scroll-margin-top">
-           <div className="container mx-auto px-6">
-             <h3 className="text-3xl font-display font-bold text-center mb-12 text-marx-dark">Contexto e Influencias</h3>
+        <section id={SectionId.INFLUENCES} className="influences-section scroll-margin-top">
+           <div className="container">
+             <h3 className="section-title" style={{textAlign: 'center', marginBottom: '3rem'}}>Contexto e Influencias</h3>
              
-             <div className="flex flex-col lg:flex-row gap-12">
-                <div className="flex-1">
-                  <h4 className="text-xl font-bold text-marx-red mb-6 border-b border-gray-300 pb-2 flex items-center">
-                    <span className="mr-2">←</span> Recibidas
+             <div className="influences-container">
+                <div className="influence-col">
+                  <h4 className="inf-header">
+                    <span style={{marginRight: '0.5rem'}}>←</span> Recibidas
                   </h4>
-                  <div className="space-y-4">
+                  <div className="inf-list">
                     {INFLUENCES.filter(inf => inf.type === 'received').map((inf, i) => (
-                      <div key={i} className="bg-white p-4 rounded shadow-sm border-l-4 border-gray-400">
-                        <h5 className="font-bold text-lg">{inf.name}</h5>
-                        <p className="text-sm text-gray-600 mt-1">{inf.description}</p>
+                      <div key={i} className="inf-card received">
+                        <h5 className="inf-name">{inf.name}</h5>
+                        <p className="inf-desc">{inf.description}</p>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                <div className="flex-1">
-                   <h4 className="text-xl font-bold text-marx-red mb-6 border-b border-gray-300 pb-2 flex items-center justify-end">
-                    Ejercidas <span className="ml-2">→</span>
+                <div className="influence-col">
+                   <h4 className="inf-header right">
+                    Ejercidas <span style={{marginLeft: '0.5rem'}}>→</span>
                   </h4>
-                   <div className="space-y-4 text-right">
+                   <div className="inf-list">
                     {INFLUENCES.filter(inf => inf.type === 'exerted').map((inf, i) => (
-                      <div key={i} className="bg-white p-4 rounded shadow-sm border-r-4 border-marx-red">
-                        <h5 className="font-bold text-lg">{inf.name}</h5>
-                        <p className="text-sm text-gray-600 mt-1">{inf.description}</p>
+                      <div key={i} className="inf-card exerted">
+                        <h5 className="inf-name">{inf.name}</h5>
+                        <p className="inf-desc">{inf.description}</p>
                       </div>
                     ))}
                   </div>
@@ -336,28 +332,28 @@ const App: React.FC = () => {
         </section>
 
         {/* WORKS SECTION */}
-        <section id={SectionId.WORKS} className="py-20 bg-marx-dark text-marx-paper scroll-margin-top">
-          <div className="container mx-auto px-6">
-             <div className="flex items-center justify-between mb-12">
-               <h3 className="text-4xl font-display font-bold">Obras Principales</h3>
-               <span className="hidden md:inline-block text-marx-gold text-sm font-mono border border-marx-gold px-2 py-1 rounded">BIBLIOTECA VIRTUAL</span>
+        <section id={SectionId.WORKS} className="works-section scroll-margin-top">
+          <div className="container">
+             <div className="works-header">
+               <h3 className="section-title" style={{color: 'white', marginBottom: 0}}>Obras Principales</h3>
+               <span className="works-tag">BIBLIOTECA VIRTUAL</span>
              </div>
              
-             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+             <div className="works-grid">
                {WORKS.map((work, idx) => (
-                 <div key={idx} className="bg-neutral-800 group hover:bg-neutral-700 transition-all duration-300 p-6 rounded-sm border border-neutral-700 hover:border-marx-gold flex flex-col">
-                    <div className="flex justify-between items-start mb-4">
-                      <BookIcon className="w-8 h-8 text-marx-red group-hover:text-marx-gold transition-colors" />
-                      <span className="text-xs font-mono text-gray-400 bg-black/30 px-2 py-1 rounded">{work.year}</span>
+                 <div key={idx} className="work-card">
+                    <div className="work-card-top">
+                      <BookIcon className="book-icon" />
+                      <span className="year-badge">{work.year}</span>
                     </div>
-                    <h4 className="text-xl font-bold mb-3 text-white group-hover:text-marx-gold transition-colors">{work.title}</h4>
-                    <p className="text-gray-400 text-sm mb-6 flex-grow">{work.description}</p>
+                    <h4 className="work-title">{work.title}</h4>
+                    <p className="work-desc">{work.description}</p>
                     
-                    <div className="flex space-x-2">
+                    <div className="work-actions">
                       {work.hasSummary && work.summaryData && (
                         <button 
                           onClick={() => setActiveModalData(work.summaryData!)}
-                          className="flex-1 py-2 bg-marx-gold text-marx-dark hover:bg-white font-bold uppercase text-sm rounded transition-colors"
+                          className="btn-summary"
                         >
                           Resumen
                         </button>
@@ -366,36 +362,36 @@ const App: React.FC = () => {
                         href={work.link} 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className={`flex-1 inline-flex items-center justify-center py-2 bg-marx-red/20 hover:bg-marx-red text-marx-red hover:text-white border border-marx-red rounded transition-all duration-300 text-sm font-bold uppercase tracking-wider ${!work.hasSummary ? 'w-full' : ''}`}
+                        className={`btn-ebook ${!work.hasSummary ? 'full-width' : ''}`}
                       >
                         {work.isFree ? 'Ebook' : 'Ver'}
-                        <ExternalLinkIcon className="w-4 h-4 ml-2" />
+                        <ExternalLinkIcon style={{width: '1rem', height: '1rem', marginLeft: '0.5rem'}} />
                       </a>
                     </div>
                  </div>
                ))}
              </div>
-             <div className="mt-8 text-center">
-                <p className="text-gray-500 text-sm">
-                  Textos cortesía de <a href="https://www.marxists.org/espanol/" target="_blank" rel="noreferrer" className="text-marx-gold hover:underline">Marxists Internet Archive</a>
+             <div style={{marginTop: '2rem', textAlign: 'center'}}>
+                <p style={{color: '#6b7280', fontSize: '0.875rem'}}>
+                  Textos cortesía de <a href="https://www.marxists.org/espanol/" target="_blank" rel="noreferrer" style={{color: 'var(--marx-gold)'}}>Marxists Internet Archive</a>
                 </p>
              </div>
           </div>
         </section>
 
         {/* VIDEOS SECTION */}
-        <section id={SectionId.VIDEOS} className="py-20 bg-white scroll-margin-top">
-          <div className="container mx-auto px-6">
-            <h3 className="text-3xl font-display font-bold text-marx-dark mb-10 flex items-center">
-              <VideoIcon className="w-8 h-8 mr-3 text-marx-red" />
+        <section id={SectionId.VIDEOS} className="videos-section scroll-margin-top">
+          <div className="container">
+            <h3 className="section-title" style={{display: 'flex', alignItems: 'center'}}>
+              <VideoIcon style={{width: '2rem', height: '2rem', marginRight: '0.75rem', color: 'var(--marx-red)'}} />
               Material Audiovisual
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="video-grid">
               {VIDEOS.map((video, idx) => (
-                <div key={idx} className="flex flex-col group cursor-pointer">
-                   <div className="relative overflow-hidden rounded-lg shadow-lg aspect-video bg-gray-200 mb-4">
+                <div key={idx} className="video-card">
+                   <div className="video-frame-container">
                       <iframe 
-                        className="w-full h-full absolute inset-0"
+                        className="video-iframe"
                         src={video.url} 
                         title={video.title}
                         frameBorder="0" 
@@ -403,8 +399,8 @@ const App: React.FC = () => {
                         allowFullScreen
                       ></iframe>
                    </div>
-                   <h4 className="font-bold text-lg text-marx-dark group-hover:text-marx-red transition-colors">{video.title}</h4>
-                   <p className="text-sm text-gray-500">{video.channel}</p>
+                   <h4 className="video-title">{video.title}</h4>
+                   <p className="video-channel">{video.channel}</p>
                 </div>
               ))}
             </div>
@@ -412,24 +408,24 @@ const App: React.FC = () => {
         </section>
 
         {/* REFERENCES SECTION */}
-        <section id={SectionId.REFERENCES} className="py-16 bg-marx-paper border-t border-gray-300 scroll-margin-top">
-           <div className="container mx-auto px-6">
-              <h3 className="text-2xl font-display font-bold text-marx-dark mb-8">Fuentes y Enlaces Externos</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <section id={SectionId.REFERENCES} className="ref-section scroll-margin-top">
+           <div className="container">
+              <h3 className="section-title" style={{fontSize: '1.5rem'}}>Fuentes y Enlaces Externos</h3>
+              <div className="ref-grid">
                 {REFERENCES.map((ref, idx) => (
                   <a 
                     key={idx} 
                     href={ref.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-start p-4 bg-white rounded border border-gray-200 hover:border-marx-red hover:shadow-md transition-all group"
+                    className="ref-card"
                   >
-                    <div className="mr-4 mt-1 bg-gray-100 p-2 rounded-full group-hover:bg-marx-red group-hover:text-white transition-colors">
-                      <ExternalLinkIcon className="w-4 h-4" />
+                    <div className="ref-icon-box">
+                      <ExternalLinkIcon style={{width: '1rem', height: '1rem'}} />
                     </div>
                     <div>
-                      <h5 className="font-bold text-marx-dark group-hover:text-marx-red">{ref.name}</h5>
-                      <p className="text-sm text-gray-600">{ref.description}</p>
+                      <h5 className="ref-name">{ref.name}</h5>
+                      <p className="ref-desc">{ref.description}</p>
                     </div>
                   </a>
                 ))}
@@ -439,16 +435,16 @@ const App: React.FC = () => {
       </main>
 
       {/* FOOTER */}
-      <footer className="bg-marx-dark text-white py-8 border-t-4 border-marx-gold">
-        <div className="container mx-auto px-6 text-center">
-          <div className="flex items-center justify-center space-x-4 mb-4 opacity-50">
-             <div className="h-px bg-white w-16"></div>
-             <span className="text-marx-gold font-serif text-2xl">☭</span>
-             <div className="h-px bg-white w-16"></div>
+      <footer className="main-footer">
+        <div className="container">
+          <div className="footer-decoration">
+             <div className="footer-line"></div>
+             <span className="footer-symbol">☭</span>
+             <div className="footer-line"></div>
           </div>
-          <p className="text-gray-400 text-sm mb-2">Esta página es un proyecto educativo sin fines de lucro.</p>
-          <p className="text-xs text-gray-600 font-mono">
-            Generado con Inteligencia Artificial: <span className="text-gray-500">Google Gemini 2.5 Flash</span>
+          <p className="footer-text">Esta página es un proyecto educativo sin fines de lucro.</p>
+          <p className="footer-small">
+            Generado con Inteligencia Artificial: <span style={{color: 'var(--gray-500)'}}>Google Gemini 2.5 Flash</span>
           </p>
         </div>
       </footer>
