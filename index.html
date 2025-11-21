@@ -1,246 +1,55 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Karl Marx — Pensamiento y Obras</title>
-  <meta name="description" content="Resumen moderno y recursos sobre el pensamiento de Karl Marx.">
-  <style>
-    :root{
-      --bg:#0f1724;
-      --card:#0b1220;
-      --accent:#6ee7b7;
-      --muted:#9aa4b2;
-      --glass: rgba(255,255,255,0.03);
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;
-      background:linear-gradient(180deg,#071022 0%, #081427 60%), radial-gradient(600px 200px at 10% 10%, rgba(110,231,183,0.03), transparent);
-      color:#e6eef6;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      line-height:1.5;
-    }
-    header{
-      padding:28px 20px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-      max-width:1100px;
-      margin:0 auto;
-    }
-    .brand{
-      display:flex;
-      gap:12px;
-      align-items:center;
-    }
-    .logo{
-      width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#4dd0e1);
-      display:flex;align-items:center;justify-content:center;font-weight:700;color:#04202a;
-      box-shadow:0 6px 20px rgba(6,22,34,0.6);
-    }
-    nav a{color:var(--muted);text-decoration:none;margin-left:14px;font-weight:600}
-    nav a:hover{color:var(--accent)}
-    main{max-width:1100px;margin:20px auto;padding:20px}
-    .hero{
-      display:grid;grid-template-columns:1fr 360px;gap:24px;align-items:center;
-      background:linear-gradient(180deg,rgba(255,255,255,0.02),var(--glass));
-      border-radius:14px;padding:28px;backdrop-filter:blur(6px);box-shadow:0 8px 40px rgba(4,10,18,0.6);
-    }
-    .hero h1{margin:0;font-size:28px}
-    .hero p{color:var(--muted);margin-top:8px}
-    .cta{margin-top:18px;display:flex;gap:12px}
-    .btn{
-      background:transparent;border:1px solid rgba(255,255,255,0.06);padding:10px 14px;border-radius:10px;color:var(--accent);cursor:pointer;font-weight:600
-    }
-    .panel{background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent);padding:18px;border-radius:12px}
-    section{margin-top:22px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
-    .card{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 6px 18px rgba(2,6,12,0.6)}
-    .card h3{margin-top:0;color:#d9f7ea}
-    ul.clean{padding-left:18px;color:var(--muted)}
-    footer{max-width:1100px;margin:28px auto;padding:14px 20px;color:var(--muted);font-size:14px}
-    .badge{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:999px;background:rgba(110,231,183,0.08);color:var(--accent);font-weight:700}
-    @media(max-width:880px){
-      .hero{grid-template-columns:1fr}
-      nav{display:none}
-    }
-    a.external{color:var(--accent);text-decoration:underline}
-    .link-status{font-size:12px;margin-top:8px;color:var(--muted)}
-    .broken{color:#ff6b6b}
-  </style>
-</head>
-<body>
-  <header>
-    <div class="brand">
-      <div class="logo">KM</div>
-      <div>
-        <div style="font-weight:800">Karl Marx</div>
-        <div style="font-size:13px;color:var(--muted)">Pensamiento, obras y recursos</div>
-      </div>
-    </div>
-    <nav>
-      <a href="#pensamiento">Pensamiento</a>
-      <a href="#obras">Obras</a>
-      <a href="#recursos">Recursos</a>
-      <a href="#contacto">Contacto</a>
-    </nav>
-  </header>
-
-  <main>
-    <section class="hero">
-      <div>
-        <h1>Karl Marx — claves de su pensamiento</h1>
-        <p>Resumen moderno y accesible: explicación de conceptos centrales, contexto histórico y recursos para profundizar.</p>
-        <div class="cta">
-          <button class="btn" onclick="document.getElementById('pensamiento').scrollIntoView({behavior:'smooth'})">Ver pensamiento</button>
-          <a class="btn" href="#recursos">Recursos y lecturas</a>
-        </div>
-      </div>
-
-      <aside class="panel">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <div>
-            <div style="font-size:13px;color:var(--muted)">Estado de enlaces</div>
-            <div id="linkSummary" class="link-status">Comprobando enlaces…</div>
-          </div>
-          <div class="badge" id="badge">OK</div>
-        </div>
-        <div style="margin-top:12px;color:var(--muted);font-size:13px">
-          Recomendación: use rutas relativas dentro del proyecto (p.ej. <code>./obra.html</code>) y atribuya fuentes externas con <code>rel="noopener"</code>.
-        </div>
-      </aside>
-    </section>
-
-    <section id="pensamiento">
-      <div class="card">
-        <h3>Materialismo histórico</h3>
-        <p style="color:var(--muted)">La estructura económica (modo de producción) determina la superestructura (instituciones, ideología). El cambio social surge por contradicciones internas en la economía, no por ideas aisladas.</p>
-        <ul class="clean">
-          <li>Modos de producción: feudalismo → capitalismo → (posible) comunismo.</li>
-          <li>La lucha de clases como motor de la historia.</li>
-        </ul>
-      </div>
-
-      <div class="card">
-        <h3>Teoría del valor-trabajo</h3>
-        <p style="color:var(--muted)">El valor de la mercancía se basa en el trabajo socialmente necesario. La explotación aparece cuando el capitalista se apropia de plusvalía (valor no pagado al trabajador).</p>
-        <ul class="clean">
-          <li>Distinción entre valor de uso y valor de cambio.</li>
-          <li>Plusvalía: clave para entender acumulación y crisis.</li>
-        </ul>
-      </div>
-
-      <div class="card">
-        <h3>Crítica de la economía política</h3>
-        <p style="color:var(--muted)">Análisis de las categorías económicas (mercado, salario, mercancía) para exponer contradicciones del capitalismo y sus tendencias a la concentración de capital y crisis periódicas.</p>
-      </div>
-
-      <div class="card">
-        <h3>Alienación</h3>
-        <p style="color:var(--muted)">Bajo el capitalismo, el trabajador se separa del producto de su trabajo, del proceso productivo, de su esencia humana y de otros trabajadores.</p>
-      </div>
-
-      <div class="card">
-        <h3>Proyecto político</h3>
-        <p style="color:var(--muted)">Transformación social mediante la organización y acción colectiva: abolición de la propiedad privada capitalista y control democrático de los medios de producción.</p>
-      </div>
-    </section>
-
-    <section id="obras">
-      <div class="card">
-        <h3>Obras principales</h3>
-        <ul class="clean">
-          <li><strong>El Manifiesto Comunista</strong> (con Engels) — síntesis política</li>
-          <li><strong>El Capital</strong> — análisis crítico de la economía política</li>
-          <li><strong>La ideología alemana</strong> — materialismo histórico en desarrollo</li>
-        </ul>
-      </div>
-
-      <div class="card">
-        <h3>Contexto y lectura crítica</h3>
-        <p style="color:var(--muted)">Interpretar a Marx exige combinar lectura histórica, economía política y teoría social — y contrastarla con debates contemporáneos (feminismo, ecología, teoría poscolonial).</p>
-      </div>
-    </section>
-
-    <section id="recursos">
-      <div class="card">
-        <h3>Lecturas recomendadas</h3>
-        <ul class="clean">
-          <li><a href="./manifiesto.pdf" class="external" target="_blank" rel="noopener">Manifiesto Comunista (PDF local)</a></li>
-          <li><a href="https://www.marxists.org/espanol/m-e/index.htm" class="external" target="_blank" rel="noopener">Marxists.org — Colección (externo)</a></li>
-          <li><a href="./resumen-el-capital.html" class="external">Resumen de El Capital (archivo local)</a></li>
-        </ul>
-        <div id="resourceStatus" class="link-status">Estado de recursos: comprobando…</div>
-      </div>
-
-      <div class="card">
-        <h3>Notas</h3>
-        <p style="color:var(--muted)">Asegúrate de que los archivos locales referenciados (PDFs, páginas) existan en el repositorio. Los enlaces relativos facilitan la portabilidad del proyecto.</p>
-      </div>
-    </section>
-
-    <section id="contacto" style="margin-top:18px">
-      <div class="card">
-        <h3>Contacto / Créditos</h3>
-        <p style="color:var(--muted)">Proyecto: Marx — repositorio local. Para editar el contenido, abre <code>index.html</code> y modifica las secciones. Pulsa F1 → "Live Server" para previsualizar en VS Code.</p>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    © Proyecto local — Marx · Revisa rutas en: <code>./</code> y <code>/assets/</code> si existen.
-  </footer>
-
-  <script>
-    // Comprueba enlaces relativos y marca los rotos. Evita peticiones CORS problemáticas para externos.
-    async function checkLinks(){
-      const anchors = Array.from(document.querySelectorAll('a[href]'));
-      let broken = 0, total = 0;
-      const localChecks = anchors.filter(a => {
-        const href = a.getAttribute('href');
-        // considerar relativos (./, ../, o sin protocolo)
-        return href && !href.match(/^https?:\/\//i) && !href.startsWith('mailto:');
-      });
-
-      for(const a of localChecks){
-        total++;
-        const href = a.getAttribute('href');
-        try{
-          const res = await fetch(href, {method:'HEAD'});
-          if(!res.ok){
-            a.classList.add('broken');
-            a.setAttribute('title','Enlace local roto: '+res.status);
-            broken++;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Karl Marx | Filósofo y Revolucionario</title>
+    <meta name="description" content="Web dedicada a la vida, obra y pensamiento de Karl Marx.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:ital,wght@0,300;0,400;0,700;1,400&family=Merriweather:ital,wght@0,300;0,700;1,400&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'marx-red': '#8B0000',
+              'marx-dark': '#1a1a1a',
+              'marx-paper': '#f4f1ea',
+              'marx-gold': '#c5a059',
+            },
+            fontFamily: {
+              serif: ['Merriweather', 'serif'],
+              sans: ['Lato', 'sans-serif'],
+              display: ['Cinzel', 'serif'],
+            },
           }
-        }catch(e){
-          a.classList.add('broken');
-          a.setAttribute('title','No se pudo acceder al recurso local');
-          broken++;
         }
       }
-
-      const badge = document.getElementById('badge');
-      const summary = document.getElementById('linkSummary');
-      const resources = document.getElementById('resourceStatus');
-
-      if(broken===0){
-        badge.textContent='OK';
-        badge.style.background='rgba(110,231,183,0.08)';
-        summary.textContent = total ? `Todos los ${total} enlaces locales accesibles.` : 'Sin enlaces locales para comprobar.';
-        resources.textContent = summary.textContent;
-      }else{
-        badge.textContent=`${broken} roto(s)`;
-        badge.style.background='rgba(255,107,107,0.08)';
-        summary.innerHTML = `<span class="broken">${broken} enlace(s) local(es) roto(s)</span> — revisa rutas relativas.`;
-        resources.textContent = `Recursos: ${broken} enlace(s) roto(s) detectado(s).`;
+    </script>
+    <style>
+      body {
+        background-color: #f4f1ea;
+        color: #1a1a1a;
       }
-    }
-
-    // Ejecutar comprobación al cargar
-    document.addEventListener('DOMContentLoaded', checkLinks);
-  </script>
+      .scroll-margin-top {
+        scroll-margin-top: 6rem;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
 </body>
 </html>
