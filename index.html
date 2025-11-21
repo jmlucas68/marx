@@ -84,6 +84,22 @@
         scroll-margin-top: 6rem;
       }
 
+      /* Icons */
+      .icon {
+        display: inline-block;
+        width: 1.5rem;
+        height: 1.5rem;
+        stroke-width: 2;
+        stroke: currentColor;
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .icon-fill {
+        fill: currentColor;
+        stroke: none;
+      }
+
       /* Header */
       .main-header {
         position: fixed;
@@ -159,6 +175,7 @@
 
       .mobile-menu-btn {
         color: var(--marx-dark);
+        display: block;
       }
 
       @media (min-width: 768px) {
@@ -172,6 +189,7 @@
       }
 
       .mobile-dropdown {
+        display: none;
         position: absolute;
         top: 100%;
         left: 0;
@@ -179,6 +197,10 @@
         background-color: var(--white);
         border-top: 1px solid var(--gray-200);
         box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      }
+      
+      .mobile-dropdown.open {
+        display: block;
       }
 
       .nav-link-mobile {
@@ -196,19 +218,13 @@
         color: var(--marx-red);
       }
 
-      .nav-link-mobile.active {
-        background-color: var(--marx-red);
-        color: var(--white);
-        border-left: 4px solid var(--marx-gold);
-      }
-
       /* Hero Section */
       .hero-section {
         min-height: 100vh;
         display: flex;
         align-items: center;
         justify-content: center;
-        background: linear-gradient(135deg, #111827, #450a0a); /* dark to dark red */
+        background: linear-gradient(135deg, #111827, #450a0a);
         color: var(--white);
         position: relative;
         overflow: hidden;
@@ -309,6 +325,7 @@
         border-radius: 2px;
         box-shadow: 4px 4px 0px 0px rgba(255,255,255,0.2);
         transition: all 0.3s;
+        display: inline-block;
       }
 
       .btn-hero:hover {
@@ -766,7 +783,7 @@
 
       .work-card:hover {
         border-color: var(--marx-gold);
-        background-color: #262626; /* Neutral 750 roughly */
+        background-color: #262626;
       }
 
       .work-card-top {
@@ -878,10 +895,6 @@
         .video-grid {
           grid-template-columns: repeat(3, 1fr);
         }
-      }
-
-      .video-card {
-        cursor: pointer;
       }
 
       .video-frame-container {
@@ -1026,22 +1039,26 @@
 
       /* Modal */
       .modal-backdrop {
+        display: none;
         position: fixed;
         inset: 0;
         z-index: 2000;
-        display: flex;
         align-items: center;
         justify-content: center;
         padding: 1rem;
         background-color: rgba(0, 0, 0, 0.7);
         backdrop-filter: blur(4px);
+      }
+
+      .modal-backdrop.active {
+        display: flex;
         animation: fadeIn 0.3s ease-out;
       }
 
       .modal-content {
         background-color: var(--marx-paper);
         width: 100%;
-        max-width: 48rem; /* ~3xl */
+        max-width: 48rem; 
         max-height: 90vh;
         overflow-y: auto;
         border-radius: 0.25rem;
@@ -1078,9 +1095,8 @@
       }
 
       .modal-header {
-        text-center: center;
-        margin-bottom: 2rem;
         text-align: center;
+        margin-bottom: 2rem;
       }
 
       .modal-tag {
@@ -1176,21 +1192,562 @@
         from { opacity: 0; }
         to { opacity: 1; }
       }
-
     </style>
-  <script type="importmap">
+<script type="importmap">
 {
   "imports": {
-    "react/": "https://aistudiocdn.com/react@^19.2.0/",
     "react": "https://aistudiocdn.com/react@^19.2.0",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/"
+    "react/": "https://aistudiocdn.com/react@^19.2.0/"
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
 </head>
-  <body>
-    <div id="root"></div>
-  <script type="module" src="/index.tsx"></script>
+<body>
+
+    <!-- HEADER -->
+    <header class="main-header">
+        <div class="container header-content">
+          <div class="logo-area" onclick="scrollToSection('home')">
+            <div class="logo-icon">M</div>
+            <h1 class="logo-text">KARL MARX</h1>
+          </div>
+          
+          <button class="mobile-menu-btn" onclick="toggleMenu()">
+             <!-- Menu Icon -->
+             <svg class="icon" viewBox="0 0 24 24">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+             </svg>
+          </button>
+
+          <nav class="desktop-nav">
+              <button onclick="scrollToSection('biografia')" id="nav-biografia">Biografía</button>
+              <button onclick="scrollToSection('pensamiento')" id="nav-pensamiento">Pensamiento</button>
+              <button onclick="scrollToSection('obras')" id="nav-obras">Obras</button>
+              <button onclick="scrollToSection('videos')" id="nav-videos">Videos</button>
+              <button onclick="scrollToSection('referencias')" id="nav-referencias">Fuentes</button>
+          </nav>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-dropdown" id="mobile-menu">
+            <button class="nav-link-mobile" onclick="scrollToSection('home')">Inicio</button>
+            <button class="nav-link-mobile" onclick="scrollToSection('biografia')">Biografía</button>
+            <button class="nav-link-mobile" onclick="scrollToSection('pensamiento')">Pensamiento</button>
+            <button class="nav-link-mobile" onclick="scrollToSection('influencias')">Influencias</button>
+            <button class="nav-link-mobile" onclick="scrollToSection('obras')">Obras Principales</button>
+            <button class="nav-link-mobile" onclick="scrollToSection('videos')">Multimedia</button>
+            <button class="nav-link-mobile" onclick="scrollToSection('referencias')">Referencias</button>
+        </div>
+    </header>
+
+    <!-- MODAL -->
+    <div class="modal-backdrop" id="modal-backdrop">
+        <div class="modal-content">
+             <button onclick="closeModal()" class="modal-close-btn">
+               <svg class="icon" viewBox="0 0 24 24">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+               </svg>
+             </button>
+             
+             <div class="modal-body" id="modal-body-content">
+               <!-- Content injected by JS -->
+             </div>
+        </div>
+    </div>
+
+    <main>
+        <!-- HERO -->
+        <section id="home" class="hero-section">
+           <div class="hero-bg-overlay"></div>
+           <div class="container hero-content">
+             <div class="hero-text">
+                <span class="hero-tag">Filósofo • Economista • Revolucionario</span>
+                <h2 class="hero-title">
+                  Trabajadores del mundo, <span class="highlight-gold">¡uníos!</span>
+                </h2>
+                <p class="hero-description">
+                  Explora la vida y el legado intelectual de uno de los pensadores más influyentes de la historia moderna.
+                </p>
+                <button onclick="scrollToSection('biografia')" class="btn-hero">
+                  Comenzar Lectura
+                </button>
+             </div>
+             <div class="hero-image-container">
+                <div class="hero-card">
+                   <img src="https://picsum.photos/seed/marxstatue/800/1000?grayscale" alt="Monumento abstracto representativo" class="hero-img" />
+                   <div class="hero-card-footer">
+                     <p>1818 — 1883</p>
+                   </div>
+                </div>
+             </div>
+           </div>
+        </section>
+
+        <div class="quote-separator">
+          <blockquote class="main-quote">
+            "Los filósofos no han hecho más que interpretar de diversos modos el mundo, pero de lo que se trata es de transformarlo."
+            <footer class="quote-author">— Tesis sobre Feuerbach (1845)</footer>
+          </blockquote>
+        </div>
+
+        <!-- BIOGRAPHY -->
+        <section id="biografia" class="container bio-section scroll-margin-top">
+          <div class="bio-grid">
+            <div class="bio-sidebar">
+               <h3 class="bio-title">Biografía</h3>
+               <p class="bio-subtitle">Del idealismo a la praxis revolucionaria.</p>
+               <img src="https://picsum.photos/seed/trier/400/300?grayscale" alt="Ciudad natal" class="bio-img" />
+               <span class="bio-caption">Tréveris, Prusia</span>
+            </div>
+            <div class="bio-content">
+              <p class="bio-lead">
+                Karl Heinrich Marx (Tréveris, Reino de Prusia, 5 de mayo de 1818 - Londres, Reino Unido, 14 de marzo de 1883) fue un filósofo, economista, sociólogo, periodista, intelectual y militante comunista prusiano de origen judío. Junto a Friedrich Engels, es el padre del socialismo científico, del comunismo moderno, del marxismo y del materialismo histórico. Sus escritos más conocidos son el Manifiesto del Partido Comunista (en coautoría con Engels) y El Capital.
+              </p>
+              <div class="timeline">
+                <div class="timeline-item">
+                  <span class="timeline-dot red"></span>
+                  <h4 class="timeline-year">1818</h4>
+                  <p>Nace en Tréveris en el seno de una familia judía convertida al protestantismo.</p>
+                </div>
+                <div class="timeline-item">
+                  <span class="timeline-dot"></span>
+                  <h4 class="timeline-year">1841</h4>
+                  <p>Se doctora en Filosofía en la Universidad de Jena. Se vincula a los Jóvenes Hegelianos.</p>
+                </div>
+                <div class="timeline-item">
+                   <span class="timeline-dot"></span>
+                   <h4 class="timeline-year">1844</h4>
+                   <p>Conoce a <strong>Friedrich Engels</strong> en París, iniciando una colaboración intelectual de por vida.</p>
+                </div>
+                <div class="timeline-item">
+                   <span class="timeline-dot red"></span>
+                   <h4 class="timeline-year">1848</h4>
+                   <p>Publicación del <em>Manifiesto Comunista</em> en vísperas de las revoluciones europeas.</p>
+                </div>
+                <div class="timeline-item">
+                   <span class="timeline-dot"></span>
+                   <h4 class="timeline-year">1867</h4>
+                   <p>Publicación del primer volumen de <em>El Capital</em>.</p>
+                </div>
+                <div class="timeline-item">
+                   <span class="timeline-dot"></span>
+                   <h4 class="timeline-year">1883</h4>
+                   <p>Fallece en Londres. Es enterrado en el cementerio de Highgate.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- THOUGHT -->
+        <section id="pensamiento" class="thought-section scroll-margin-top">
+          <div class="container">
+            <div class="thought-header">
+              <h3 class="section-title">Pensamiento Fundamental</h3>
+              <div class="divider-red"></div>
+              <p style="color: #4b5563; max-width: 42rem; margin: 1rem auto;">Conceptos clave para entender la crítica marxista al sistema capitalista y su visión de la historia.</p>
+            </div>
+            
+            <div class="concepts-grid">
+                <!-- Materialismo Histórico -->
+                <div class="concept-card">
+                  <h4 class="concept-title">Materialismo Histórico</h4>
+                  <p class="concept-desc">La estructura económica de la sociedad condiciona la superestructura jurídica, política e ideológica.</p>
+                  <button onclick="openModal('materialismo')" class="btn-link">Leer explicación detallada →</button>
+                </div>
+                <!-- Alienación -->
+                <div class="concept-card">
+                  <h4 class="concept-title">Alienación (Enajenación)</h4>
+                  <p class="concept-desc">El trabajador se siente ajeno al producto de su trabajo y a su propia naturaleza humana.</p>
+                  <button onclick="openModal('alienacion')" class="btn-link">Leer explicación detallada →</button>
+                </div>
+                <!-- Plusvalía -->
+                <div class="concept-card">
+                  <h4 class="concept-title">Plusvalía</h4>
+                  <p class="concept-desc">El valor no pagado del trabajo del obrero, fuente de la ganancia capitalista.</p>
+                  <button onclick="openModal('plusvalia')" class="btn-link">Leer explicación detallada →</button>
+                </div>
+                <!-- Comunismo -->
+                <div class="concept-card">
+                  <h4 class="concept-title">Comunismo</h4>
+                  <p class="concept-desc">Sociedad sin clases, sin propiedad privada y sin Estado.</p>
+                  <button onclick="openModal('comunismo')" class="btn-link">Leer explicación detallada →</button>
+                </div>
+            </div>
+
+            <div class="quotes-grid">
+                <div class="quote-card">
+                    <svg class="icon icon-fill quote-icon-bg" viewBox="0 0 24 24"><path d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C19.5693 16 20.017 15.5523 20.017 15V9C20.017 8.44772 19.5693 8 19.017 8H15.017C14.4647 8 14.017 8.44772 14.017 9V11C14.017 11.5523 13.5693 12 13.017 12H12.017V5H22.017V15C22.017 18.3137 19.3307 21 16.017 21H14.017ZM5.0166 21L5.0166 18C5.0166 16.8954 5.91203 16 7.0166 16H10.0166C10.5689 16 11.0166 15.5523 11.0166 15V9C11.0166 8.44772 10.5689 8 10.0166 8H6.0166C5.46432 8 5.0166 8.44772 5.0166 9V11C5.0166 11.5523 4.56889 12 4.0166 12H3.0166V5H13.0166V15C13.0166 18.3137 10.3303 21 7.0166 21H5.0166Z"></path></svg>
+                    <p class="quote-text-card">"La historia de toda sociedad hasta nuestros días es la historia de la lucha de clases."</p>
+                    <p class="quote-source-card">— Manifiesto Comunista (1848)</p>
+                </div>
+                <div class="quote-card">
+                    <svg class="icon icon-fill quote-icon-bg" viewBox="0 0 24 24"><path d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C19.5693 16 20.017 15.5523 20.017 15V9C20.017 8.44772 19.5693 8 19.017 8H15.017C14.4647 8 14.017 8.44772 14.017 9V11C14.017 11.5523 13.5693 12 13.017 12H12.017V5H22.017V15C22.017 18.3137 19.3307 21 16.017 21H14.017ZM5.0166 21L5.0166 18C5.0166 16.8954 5.91203 16 7.0166 16H10.0166C10.5689 16 11.0166 15.5523 11.0166 15V9C11.0166 8.44772 10.5689 8 10.0166 8H6.0166C5.46432 8 5.0166 8.44772 5.0166 9V11C5.0166 11.5523 4.56889 12 4.0166 12H3.0166V5H13.0166V15C13.0166 18.3137 10.3303 21 7.0166 21H5.0166Z"></path></svg>
+                    <p class="quote-text-card">"La religión es el suspiro de la criatura oprimida... Es el opio del pueblo."</p>
+                    <p class="quote-source-card">— Crítica de la Filosofía del Derecho de Hegel (1843)</p>
+                </div>
+                <div class="quote-card">
+                    <svg class="icon icon-fill quote-icon-bg" viewBox="0 0 24 24"><path d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C19.5693 16 20.017 15.5523 20.017 15V9C20.017 8.44772 19.5693 8 19.017 8H15.017C14.4647 8 14.017 8.44772 14.017 9V11C14.017 11.5523 13.5693 12 13.017 12H12.017V5H22.017V15C22.017 18.3137 19.3307 21 16.017 21H14.017ZM5.0166 21L5.0166 18C5.0166 16.8954 5.91203 16 7.0166 16H10.0166C10.5689 16 11.0166 15.5523 11.0166 15V9C11.0166 8.44772 10.5689 8 10.0166 8H6.0166C5.46432 8 5.0166 8.44772 5.0166 9V11C5.0166 11.5523 4.56889 12 4.0166 12H3.0166V5H13.0166V15C13.0166 18.3137 10.3303 21 7.0166 21H5.0166Z"></path></svg>
+                    <p class="quote-text-card">"El capital es trabajo muerto que, como un vampiro, solo vive chupando trabajo vivo..."</p>
+                    <p class="quote-source-card">— El Capital, Vol I (1867)</p>
+                </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- INFLUENCES -->
+        <section id="influencias" class="influences-section scroll-margin-top">
+           <div class="container">
+             <h3 class="section-title" style="text-align: center; margin-bottom: 3rem;">Contexto e Influencias</h3>
+             
+             <div class="influences-container">
+                <div class="influence-col">
+                  <h4 class="inf-header"><span style="margin-right: 0.5rem;">←</span> Recibidas</h4>
+                  <div class="inf-list">
+                      <div class="inf-card received">
+                        <h5 class="inf-name">G.W.F. Hegel</h5>
+                        <p class="inf-desc">Del idealismo alemán tomó la dialéctica, aunque invirtiéndola ('ponerla sobre sus pies').</p>
+                      </div>
+                      <div class="inf-card received">
+                        <h5 class="inf-name">Ludwig Feuerbach</h5>
+                        <p class="inf-desc">De él adoptó el materialismo y la crítica a la religión.</p>
+                      </div>
+                      <div class="inf-card received">
+                        <h5 class="inf-name">Economía Política Inglesa</h5>
+                        <p class="inf-desc">Adam Smith y David Ricardo. De ellos estudió la teoría del valor-trabajo.</p>
+                      </div>
+                  </div>
+                </div>
+
+                <div class="influence-col">
+                   <h4 class="inf-header right">Ejercidas <span style="margin-left: 0.5rem;">→</span></h4>
+                   <div class="inf-list">
+                      <div class="inf-card exerted">
+                        <h5 class="inf-name">Vladimir Lenin</h5>
+                        <p class="inf-desc">Llevó las ideas de Marx a la práctica política con la Revolución Rusa.</p>
+                      </div>
+                      <div class="inf-card exerted">
+                        <h5 class="inf-name">Escuela de Frankfurt</h5>
+                        <p class="inf-desc">Adorno, Horkheimer, Marcuse. Crítica cultural y sociedad de consumo.</p>
+                      </div>
+                  </div>
+                </div>
+             </div>
+           </div>
+        </section>
+
+        <!-- WORKS -->
+        <section id="obras" class="works-section scroll-margin-top">
+          <div class="container">
+             <div class="works-header">
+               <h3 class="section-title" style="color: white; margin-bottom: 0;">Obras Principales</h3>
+               <span class="works-tag">BIBLIOTECA VIRTUAL</span>
+             </div>
+             
+             <div class="works-grid">
+               <!-- Manifiesto -->
+               <div class="work-card">
+                    <div class="work-card-top">
+                      <svg class="icon book-icon" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                      <span class="year-badge">1848</span>
+                    </div>
+                    <h4 class="work-title">Manifiesto del Partido Comunista</h4>
+                    <p class="work-desc">El texto político más influyente de la historia moderna.</p>
+                    <div class="work-actions">
+                      <a href="https://www.marxists.org/espanol/m-e/1840s/48-manif.htm" target="_blank" rel="noopener noreferrer" class="btn-ebook full-width">Ebook Gratis</a>
+                    </div>
+               </div>
+
+               <!-- El Capital -->
+               <div class="work-card">
+                    <div class="work-card-top">
+                      <svg class="icon book-icon" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                      <span class="year-badge">1867</span>
+                    </div>
+                    <h4 class="work-title">El Capital (Das Kapital)</h4>
+                    <p class="work-desc">Análisis crítico de la economía política. Estudia el modo de producción capitalista.</p>
+                    <div class="work-actions">
+                      <button onclick="openModal('capital')" class="btn-summary">Resumen</button>
+                      <a href="https://www.marxists.org/espanol/m-e/1860s/eccx86s.htm" target="_blank" rel="noopener noreferrer" class="btn-ebook">Ebook Gratis</a>
+                    </div>
+               </div>
+
+               <!-- Ideologia Alemana -->
+               <div class="work-card">
+                    <div class="work-card-top">
+                      <svg class="icon book-icon" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                      <span class="year-badge">1846</span>
+                    </div>
+                    <h4 class="work-title">La Ideología Alemana</h4>
+                    <p class="work-desc">Formula por primera vez las tesis principales del materialismo histórico.</p>
+                    <div class="work-actions">
+                      <a href="https://www.marxists.org/espanol/m-e/1846/ideoalemana/index.htm" target="_blank" rel="noopener noreferrer" class="btn-ebook full-width">Ebook Gratis</a>
+                    </div>
+               </div>
+               
+               <!-- Manuscritos -->
+               <div class="work-card">
+                    <div class="work-card-top">
+                      <svg class="icon book-icon" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                      <span class="year-badge">1844</span>
+                    </div>
+                    <h4 class="work-title">Manuscritos económicos y filosóficos</h4>
+                    <p class="work-desc">Textos tempranos fundamentales para entender el concepto de alienación.</p>
+                    <div class="work-actions">
+                      <a href="https://www.marxists.org/espanol/m-e/1840s/manuscritos/index.htm" target="_blank" rel="noopener noreferrer" class="btn-ebook full-width">Ebook Gratis</a>
+                    </div>
+               </div>
+               
+               <!-- Miseria -->
+               <div class="work-card">
+                    <div class="work-card-top">
+                      <svg class="icon book-icon" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                      <span class="year-badge">1847</span>
+                    </div>
+                    <h4 class="work-title">Miseria de la Filosofía</h4>
+                    <p class="work-desc">Respuesta a 'Filosofía de la miseria' de Proudhon.</p>
+                    <div class="work-actions">
+                      <a href="https://www.marxists.org/espanol/m-e/1847/miseria/index.htm" target="_blank" rel="noopener noreferrer" class="btn-ebook full-width">Ebook Gratis</a>
+                    </div>
+               </div>
+
+             </div>
+             <div style="margin-top: 2rem; text-align: center;">
+                <p style="color: #6b7280; font-size: 0.875rem;">
+                  Textos cortesía de <a href="https://www.marxists.org/espanol/" target="_blank" rel="noreferrer" style="color: var(--marx-gold)">Marxists Internet Archive</a>
+                </p>
+             </div>
+          </div>
+        </section>
+
+        <!-- VIDEOS -->
+        <section id="videos" class="videos-section scroll-margin-top">
+          <div class="container">
+            <h3 class="section-title" style="display: flex; align-items: center;">
+              <svg class="icon" style="width: 2rem; height: 2rem; margin-right: 0.75rem; color: var(--marx-red);" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line></svg>
+              Material Audiovisual
+            </h3>
+            <div class="video-grid">
+                <div class="video-card">
+                   <div class="video-frame-container">
+                      <iframe class="video-iframe" src="https://www.youtube.com/embed/rYirs1pDV20" title="Marx en 10 minutos" allowfullscreen></iframe>
+                   </div>
+                   <h4 class="video-title">Marx en 10 minutos (Filosofía)</h4>
+                   <p class="video-channel">Unboxing Philosophy</p>
+                </div>
+                <div class="video-card">
+                   <div class="video-frame-container">
+                      <iframe class="video-iframe" src="https://www.youtube.com/embed/41Y02E_41kM" title="Karl Marx - Grandes Pensadores" allowfullscreen></iframe>
+                   </div>
+                   <h4 class="video-title">Karl Marx - Grandes Pensadores</h4>
+                   <p class="video-channel">Educatina</p>
+                </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- REFERENCES -->
+        <section id="referencias" class="ref-section scroll-margin-top">
+           <div class="container">
+              <h3 class="section-title" style="font-size: 1.5rem;">Fuentes y Enlaces Externos</h3>
+              <div class="ref-grid">
+                  <a href="https://www.marxists.org/espanol/m-e/index.htm" target="_blank" rel="noopener noreferrer" class="ref-card">
+                    <div class="ref-icon-box">
+                       <svg class="icon" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    </div>
+                    <div>
+                      <h5 class="ref-name">Marxists Internet Archive (MIA)</h5>
+                      <p class="ref-desc">La mayor biblioteca digital gratuita de autores marxistas en el mundo.</p>
+                    </div>
+                  </a>
+                  <a href="https://www.webdianoia.com/contemporanea/marx/marx_bio.htm" target="_blank" rel="noopener noreferrer" class="ref-card">
+                    <div class="ref-icon-box">
+                       <svg class="icon" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    </div>
+                    <div>
+                      <h5 class="ref-name">Webdianoia</h5>
+                      <p class="ref-desc">Recursos didácticos de filosofía para estudiantes.</p>
+                    </div>
+                  </a>
+                  <a href="https://encyclopaedia.herdereditorial.com/wiki/Autor:Marx,_Karl" target="_blank" rel="noopener noreferrer" class="ref-card">
+                    <div class="ref-icon-box">
+                       <svg class="icon" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    </div>
+                    <div>
+                      <h5 class="ref-name">Encyclopaedia Herder</h5>
+                      <p class="ref-desc">Enciclopedia de teología y filosofía.</p>
+                    </div>
+                  </a>
+                  <a href="https://es.wikipedia.org/wiki/Karl_Marx" target="_blank" rel="noopener noreferrer" class="ref-card">
+                    <div class="ref-icon-box">
+                       <svg class="icon" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    </div>
+                    <div>
+                      <h5 class="ref-name">Wikipedia</h5>
+                      <p class="ref-desc">Entrada general y biográfica detallada.</p>
+                    </div>
+                  </a>
+              </div>
+           </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+          <div class="footer-decoration">
+             <div class="footer-line"></div>
+             <span class="footer-symbol">☭</span>
+             <div class="footer-line"></div>
+          </div>
+          <p class="footer-text">Esta página es un proyecto educativo sin fines de lucro.</p>
+          <p class="footer-small">
+            Generado con Inteligencia Artificial: <span style="color: var(--gray-500);">Google Gemini 2.5 Flash</span>
+          </p>
+        </div>
+    </footer>
+
+    <!-- LOGIC -->
+    <script>
+        // --- DATA ---
+        const MODAL_DATA = {
+            capital: {
+                title: "El Capital: Crítica de la economía política",
+                intro: "Publicado el primer tomo en 1867, 'El Capital' es la obra magna de Marx. No es solo un tratado de economía, sino una descripción sociológica y una crítica filosófica del sistema capitalista.",
+                sections: [
+                    { heading: "La Mercancía y el Valor", text: "El análisis comienza con la mercancía, la unidad celular del capitalismo. Marx distingue entre 'Valor de Uso' y 'Valor de Cambio'. Lo que hace conmensurables a mercancías distintas es que todas contienen trabajo humano abstracto socialmente necesario." },
+                    { heading: "Plusvalía y Explotación", text: "El secreto del capitalismo reside en la compra-venta de la fuerza de trabajo. El excedente producido por el obrero que supera su salario es la 'Plusvalía', fuente del beneficio del capitalista." },
+                    { heading: "Acumulación Originaria", text: "Históricamente, el capital nace de la violencia, la expropiación de tierras comunales y el colonialismo, separando al trabajador de sus medios de producción." }
+                ]
+            },
+            materialismo: {
+                title: "Materialismo Histórico",
+                intro: "Es el marco conceptual marxista para comprender la historia humana. Son las condiciones materiales y económicas las que determinan la conciencia social.",
+                sections: [
+                    { heading: "Estructura y Superestructura", text: "La 'Base' económica (fuerzas productivas) determina la 'Superestructura' (leyes, política, ideología). Si cambia la base, cambia la estructura social." },
+                    { heading: "Lucha de Clases", text: "'La historia de todas las sociedades hasta nuestros días es la historia de la lucha de clases'. El motor del cambio es el conflicto entre opresores y oprimidos." }
+                ]
+            },
+            alienacion: {
+                title: "Alienación (Entfremdung)",
+                intro: "Condición en la que el individuo se siente ajeno a su trabajo y a sí mismo bajo el capitalismo.",
+                sections: [
+                    { heading: "Del producto", text: "El objeto producido se enfrenta al trabajador como un poder extraño." },
+                    { heading: "Del acto de producción", text: "El trabajo es forzado, no voluntario. El hombre solo se siente libre en sus funciones animales." },
+                    { heading: "Del 'Ser Genérico'", text: "El capitalismo despoja al hombre de su creatividad humana, reduciéndolo a una mercancía." }
+                ]
+            },
+            plusvalia: {
+                title: "Teoría de la Plusvalía",
+                intro: "El concepto central de la economía marxista que explica el origen del beneficio.",
+                sections: [
+                    { heading: "Fuerza de Trabajo", text: "El capitalista compra la capacidad de trabajar del obrero por un salario (costo de subsistencia)." },
+                    { heading: "Excedente", text: "Si el obrero cubre su salario en 4 horas pero trabaja 8, las 4 restantes generan valor gratuito para el capitalista. Eso es la plusvalía." }
+                ]
+            },
+            comunismo: {
+                title: "El Comunismo",
+                intro: "El movimiento real que anula y supera el estado de cosas actual.",
+                sections: [
+                    { heading: "Abolición de la Propiedad Privada", text: "El fin de la propiedad burguesa de los medios de producción." },
+                    { heading: "Extinción del Estado", text: "En una sociedad sin clases, el Estado como herramienta de opresión se vuelve innecesario." },
+                    { heading: "Objetivo Final", text: "'¡De cada cual según sus capacidades, a cada cual según sus necesidades!'" }
+                ]
+            }
+        };
+
+        // --- NAVIGATION ---
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('open');
+        }
+
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                // Close menu if open
+                document.getElementById('mobile-menu').classList.remove('open');
+                // Scroll with offset
+                const headerOffset = 80;
+                const elementPosition = el.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: "smooth"
+                });
+            }
+        }
+
+        // --- SCROLL SPY ---
+        window.addEventListener('scroll', function() {
+            const sections = ['biografia', 'pensamiento', 'obras', 'videos', 'referencias'];
+            const scrollPosition = window.scrollY + 200;
+
+            sections.forEach(section => {
+                const element = document.getElementById(section);
+                const navBtn = document.getElementById('nav-' + section);
+                if (element && navBtn) {
+                    const top = element.offsetTop;
+                    const height = element.offsetHeight;
+                    if (scrollPosition >= top && scrollPosition < top + height) {
+                        navBtn.classList.add('active');
+                    } else {
+                        navBtn.classList.remove('active');
+                    }
+                }
+            });
+        });
+
+        // --- MODAL LOGIC ---
+        function openModal(key) {
+            const data = MODAL_DATA[key];
+            if (!data) return;
+
+            const modalBody = document.getElementById('modal-body-content');
+            
+            let html = `
+                <div class="modal-header">
+                    <span class="modal-tag">Explicación Detallada</span>
+                    <h2 class="modal-title">${data.title}</h2>
+                    <div class="modal-divider"></div>
+                </div>
+                <p class="modal-intro">${data.intro}</p>
+            `;
+
+            data.sections.forEach(sec => {
+                html += `
+                    <div class="modal-section">
+                        <h3 class="modal-section-title">${sec.heading}</h3>
+                        <p class="modal-text">${sec.text}</p>
+                    </div>
+                `;
+            });
+
+            html += `
+                <div class="modal-footer">
+                    <button onclick="closeModal()" class="btn-modal-close">Cerrar</button>
+                </div>
+            `;
+
+            modalBody.innerHTML = html;
+            document.getElementById('modal-backdrop').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('modal-backdrop').classList.remove('active');
+            document.body.style.overflow = 'unset';
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('modal-backdrop').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+    </script>
 </body>
 </html>
